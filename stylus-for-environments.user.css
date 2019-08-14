@@ -1,0 +1,90 @@
+/* ==UserStyle==
+@name           Stylus for Environments
+@namespace      github.com/openstyles/stylus
+@version        1.0.0
+@description    環境ごとにラベルを表示する CSS
+@author         Yuto Tominaga
+==/UserStyle== */
+/* 共通設定 */
+:root:before {
+  /* position */
+  position: fixed;
+  top: 15px;
+  left: -25px;
+
+  /* display */
+  width: 100px;
+  z-index: 99999;
+  transform: rotateZ(-45deg);
+
+  /* text */
+  text-align: center;
+  color: #fff;
+  font-size: 12pt;
+  font-family: 'ヒラギノ角ゴ ProN W3', 'Hiragino Kaku Gothic ProN';
+  font-weight: normal;
+  line-height: 1.5;
+  opacity: 0.9;
+
+  /* animation default settings */
+  --hue: 0;
+  --base-light: 30%;
+  --shadow-light: 50%;
+  --bright-light: 80%;
+
+  --duration: 0s;
+
+  /* animation */
+  background-color: hsl(var(--hue), 100%, var(--base-light));
+  filter: drop-shadow(0 0 5px hsl(var(--hue), 100%, var(--shadow-light)));
+  animation: var(--duration) ease-in-out alternate infinite bright;
+}
+
+
+@keyframes bright {
+  to {
+      filter: drop-shadow(0 0 10px hsl(var(--hue), 100%, var(--shadow-light)));
+      background-color: hsl(var(--hue), 100%, var(--bright-light));
+  }
+}
+
+
+@-moz-document domain("www.example.com") {
+  /* 本番環境用 */
+  :root:before {
+      --hue: 330;
+      --duration: 0.5s;
+
+      content: "本番";
+      font-weight: bold;
+  }
+}
+
+@-moz-document domain("staging.example.com") {
+  /* ステージング環境用 */
+  :root:before {
+      --hue: 60;
+      --base-light: 25%;
+      --shadow-light: 50%;
+      --bright-light: 45%;
+      --duration: 1.0s;
+      content: "STAGING";
+      font-weight: normal;
+  }
+}
+
+@-moz-document domain("dev.example.com") {
+  /* 開発環境 */
+  :root:before {
+      --hue: 120;
+      content: "Devel";
+  }
+}
+
+@-moz-document domain("localhost") {
+  /* ローカル環境 */
+  :root:before {
+      --hue: 225;
+      content: "local";
+  }
+}
